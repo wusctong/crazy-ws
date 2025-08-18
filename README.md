@@ -1,6 +1,6 @@
 # CraftSocket Proxy for Render
 
-This project deploys a CraftSocket proxy service to Render that connects to a Minecraft server (play.onecube.fr:25565) and exposes a WebSocket endpoint.
+This project deploys a CraftSocket proxy service to Render that connects to a Minecraft server (play.wynncraft.com:25565) and exposes a WebSocket endpoint.
 
 ## Deployment to Render
 
@@ -15,7 +15,7 @@ The service will automatically start and listen on the Render-provided `$PORT` e
 ## Configuration
 
 The proxy is configured to:
-- Connect to `play.onecube.fr:25565` (Minecraft server)
+- Connect to `play.wynncraft.com:25565` (Minecraft server)
 - Expose a WebSocket endpoint at `/boost`
 - Listen on the port provided by Render (`$PORT`)
 - Include verbose logging for troubleshooting

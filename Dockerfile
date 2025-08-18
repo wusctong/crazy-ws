@@ -12,9 +12,9 @@ COPY logging.properties /app/logging.properties
 EXPOSE 8080
 
 # 启动命令（关键：使用Render的动态端口$PORT，替换为你的MC服务器信息）
-# Adding more verbose logging
+# Trying a different Minecraft server that's more likely to work with proxies
 CMD ["sh", "-c", "java -Djava.util.logging.config.file=logging.properties -jar /app/craftsocketproxy.jar --s \
-  -host play.onecube.fr \
+  -host play.wynncraft.com \
   -port 25565 \
   -proxy $PORT \
   -path /boost"]
