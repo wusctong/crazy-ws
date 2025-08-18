@@ -12,7 +12,7 @@ EXPOSE 8080
 
 # 启动命令（关键：使用Render的动态端口$PORT，替换为你的MC服务器信息）
 CMD ["sh", "-c", "java -jar /app/craftsocketproxy.jar --s \
-  -host hub.mcsrv.top \
+  -host play.onecube.fr \
   -port 25565 \
   -proxy $PORT \
   -path /boost"]
