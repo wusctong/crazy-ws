@@ -1,17 +1,14 @@
-{
-  "name": "gate-proxy",
-  "build": {
-    "type": "go",
-    "version": "1.21"
-  },
-  "services": [
-    {
-      "type": "web",
-      "name": "gate-proxy",
-      "env": "go",
-      "start": "go run src/main.go",
-      "healthCheckPath": "/",
-      "autoDeploy": true
-    }
-  ]
-}
+services:
+  - type: web
+    name: gate-proxy
+    runtime: docker
+    repo: https://github.com/wusctong/crazy-ws.git
+    region: singapore
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: PROXY_TARGET_HOST
+        value: mc.hypixel.net
+      - key: PROXY_TARGET_PORT
+        value: "25565"
