@@ -5,13 +5,13 @@ FROM openjdk:8-jre-slim
 WORKDIR /app
 
 # 将本地的JAR文件复制到容器中（确保文件名与你实际的JAR一致）
-COPY craftsockerproxy1.0.1.jar /app/craftsockerproxy.jar
+COPY CraftSocketProxy1.0.1.jar /app/craftsocketproxy.jar
 
 # 暴露端口（Render会动态分配端口，这里只是提示作用）
 EXPOSE 8080
 
 # 启动命令（关键：使用Render的动态端口$PORT，替换为你的MC服务器信息）
-CMD ["sh", "-c", "java -jar /app/craftsockerproxy.jar --s \
+CMD ["sh", "-c", "java -jar /app/craftsocketproxy.jar --s \
   -host YOUR_MC_SERVER_IP \
   -port YOUR_MC_SERVER_PORT \
   -proxy $PORT \
