@@ -1,0 +1,17 @@
+{
+  "name": "gate-proxy",
+  "build": {
+    "type": "go",
+    "version": "1.21"
+  },
+  "services": [
+    {
+      "type": "web",
+      "name": "gate-proxy",
+      "env": "go",
+      "start": "go run src/main.go",
+      "healthCheckPath": "/",
+      "autoDeploy": true
+    }
+  ]
+}
