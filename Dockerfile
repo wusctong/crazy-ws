@@ -12,8 +12,7 @@ EXPOSE 8080
 
 # 启动命令（关键：使用Render的动态端口$PORT，替换为你的MC服务器信息）
 CMD ["sh", "-c", "java -jar /app/craftsocketproxy.jar --s \
-  -host YOUR_MC_SERVER_IP \
-  -port YOUR_MC_SERVER_PORT \
+  -host mc.hypixel.net \
+  -port 25565 \
   -proxy $PORT \
-  -path /minecraft"]
-
+  -path /boost"]
