@@ -7,7 +7,7 @@ Gate is a lightweight Minecraft proxy designed to forward connections to mc.hypi
 - Lightweight and efficient
 - Simple configuration
 - Easy deployment on Render
-- Health check endpoint for deployment monitoring
+- Health check endpoint with readiness indicator
 
 ## Deployment
 
@@ -53,7 +53,7 @@ The proxy can be configured using the following environment variables:
 - `PROXY_TARGET_HOST` - The target Minecraft server host (default: mc.hypixel.net)
 - `PROXY_TARGET_PORT` - The target Minecraft server port (default: 25565)
 
-The service also exposes a health check endpoint at `/health` on port 8080.
+The service also exposes a health check endpoint at `/health` on port 8080 that indicates service readiness.
 
 ## License
 
