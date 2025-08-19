@@ -1,10 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"net"
+	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
@@ -19,18 +22,36 @@ func main() {
 		targetPort = "25565"
 	}
 	
-	listenAddr := ":25565"
+	// Start the health check server in a separate goroutine
+	go func() {
+		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+			fmt.Fprintf(w, "Minecraft Proxy is running")
+		})
+		http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "text/plain")
+			w.WriteHeader(http.StatusOK)
+			fmt.Fprintf(w, "OK")
+		})
+		log.Println("Health check server starting on :8080")
+		if err := http.ListenAndServe(":8080", nil); err != nil {
+			log.Printf("Health server error: %v", err)
+		}
+	}()
 	
+	// Give the health server a moment to start
+	time.Sleep(100 * time.Millisecond)
+	
+	// Start the proxy
+	listenAddr := ":25565"
 	log.Printf("Starting Minecraft proxy to %s:%s", targetHost, targetPort)
 	
-	// Start listening for connections
 	listener, err := net.Listen("tcp", listenAddr)
 	if err != nil {
 		log.Fatalf("Failed to start listener: %v", err)
 	}
 	defer listener.Close()
 	
-	log.Printf("Proxy listening on %s", listenAddr)
+	log.Printf("Proxy listening on %s - service is ready", listenAddr)
 	
 	// Accept connections
 	for {

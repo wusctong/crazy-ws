@@ -1,5 +1,5 @@
 services:
-  - type: tcp
+  - type: web
     name: gate-proxy
     runtime: docker
     repo: https://github.com/wusctong/crazy-ws.git
@@ -12,4 +12,5 @@ services:
         value: mc.hypixel.net
       - key: PROXY_TARGET_PORT
         value: "25565"
-    port: 25565
+    healthCheckPath: /health
+    port: 8080
