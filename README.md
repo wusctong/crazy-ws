@@ -27,9 +27,30 @@ go run src/main.go
 
 The proxy will listen on port 25565 and forward connections to mc.hypixel.net:25565.
 
+You can also customize the target server using environment variables:
+```bash
+PROXY_TARGET_HOST=your-server.com PROXY_TARGET_PORT=25565 go run src/main.go
+```
+
+## Docker
+
+To build and run using Docker:
+
+```bash
+docker build -t gate-proxy .
+docker run -p 25565:25565 gate-proxy
+```
+
+You can customize the target server using environment variables:
+```bash
+docker run -e PROXY_TARGET_HOST=your-server.com -e PROXY_TARGET_PORT=25565 -p 25565:25565 gate-proxy
+```
+
 ## Configuration
 
-The proxy is configured in `src/main.go` to forward connections to mc.hypixel.net:25565. You can modify this file to change the target server or listen port.
+The proxy can be configured using the following environment variables:
+- `PROXY_TARGET_HOST` - The target Minecraft server host (default: mc.hypixel.net)
+- `PROXY_TARGET_PORT` - The target Minecraft server port (default: 25565)
 
 ## License
 
