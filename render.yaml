@@ -13,4 +13,3 @@ services:
       - key: PROXY_TARGET_PORT
         value: "25565"
     healthCheckPath: /health
-    port: 8080

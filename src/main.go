@@ -7,12 +7,8 @@ import (
 	"net"
 	"net/http"
 	"os"
-	"sync/atomic"
 	"time"
 )
-
-// ready indicates whether the service is ready to serve traffic
-var ready int32
 
 func main() {
 	// Get target host and port from environment variables or use defaults
@@ -26,27 +22,25 @@ func main() {
 		targetPort = "25565"
 	}
 	
+	// Determine the port for the health check server
+	// Render typically sets the PORT environment variable for web services
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "80" // Default to port 80 if PORT is not set
+	}
+	
 	// Start the health check server in a separate goroutine
 	go func() {
 		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-			if atomic.LoadInt32(&ready) == 1 {
-				fmt.Fprintf(w, "Minecraft Proxy is running and ready")
-			} else {
-				http.Error(w, "Service not ready", http.StatusServiceUnavailable)
-			}
+			fmt.Fprintf(w, "Minecraft Proxy is running")
 		})
 		http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "text/plain")
-			if atomic.LoadInt32(&ready) == 1 {
-				w.WriteHeader(http.StatusOK)
-				fmt.Fprintf(w, "OK")
-			} else {
-				w.WriteHeader(http.StatusServiceUnavailable)
-				fmt.Fprintf(w, "Not ready")
-			}
+			w.WriteHeader(http.StatusOK)
+			fmt.Fprintf(w, "OK")
 		})
-		log.Println("Health check server starting on :8080")
-		if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Printf("Health check server starting on port %s", port)
+		if err := http.ListenAndServe(":"+port, nil); err != nil {
 			log.Printf("Health server error: %v", err)
 		}
 	}()
@@ -64,8 +58,6 @@ func main() {
 	}
 	defer listener.Close()
 	
-	// Mark the service as ready
-	atomic.StoreInt32(&ready, 1)
 	log.Printf("Proxy listening on %s - service is ready", listenAddr)
 	
 	// Accept connections
